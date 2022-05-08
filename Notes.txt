@@ -1,0 +1,54 @@
+1. Set the k8s cluster to minikube
+    $ kubectl config set-cluster minikube 
+
+2. Start minikube
+    $ minikube start
+
+3. Open minikube dashboard
+    $ minikube dashboard
+
+4. Create a deployment
+    $ kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+
+5. View deployments
+    $ kubectl get deployments
+
+6. Get pods
+    $ kubectl get pods
+
+7. Get events
+    $ kubectl get events
+
+8. View config
+    $ kubectl config view
+
+9. Expose the Pod to the public internet using the kubectl expose command
+    $ kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+10. View services
+    $ kubectl get services
+    ---- output ----
+    NAME         TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE
+    hello-node   LoadBalancer   10.107.245.135   pending          8080:30124/TCP   19m
+
+11. Expose on external ip
+    $ minikube tunnel
+    ---- output ----
+    Status:	
+	machine: minikube
+	pid: 43903
+	route: 10.96.0.0/12 -> 192.168.49.2
+	minikube: Running
+	services: [hello-node]
+    errors: 
+		minikube: no errors
+		router: no errors
+		loadbalancer emulator: no errors
+
+    Access app on 192.168.49.2:30124
+
+12. Stop services
+    $ kubectl delete service hello-node
+    $ kubectl delete deployment hello-node
+    $ minikube stop
+    $ minikube delete --all
